@@ -7,16 +7,17 @@ executors:
 
 commands:
   setup:
-    - checkout
-    - run: sudo pip install tox
-    - restore_cache:
-        keys:
-          - v1-tox-{{ checksum "tox.ini" }}-{{ checksum "requirements/base.txt" }}-{{ checksum "requirements/dev.txt" }}
-    - run: tox --notest
-    - save_cache:
-        key: v1-tox-{{ checksum "tox.ini" }}-{{ checksum "requirements/base.txt" }}-{{ checksum "requirements/dev.txt" }}
-        paths:
-          - .tox
+    steps:
+      - checkout
+      - run: sudo pip install tox
+      - restore_cache:
+          keys:
+            - v1-tox-{{ checksum "tox.ini" }}-{{ checksum "requirements/base.txt" }}-{{ checksum "requirements/dev.txt" }}
+      - run: tox --notest
+      - save_cache:
+          key: v1-tox-{{ checksum "tox.ini" }}-{{ checksum "requirements/base.txt" }}-{{ checksum "requirements/dev.txt" }}
+          paths:
+            - .tox
 
 jobs:
   flake8:
